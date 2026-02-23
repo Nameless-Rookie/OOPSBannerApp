@@ -1,24 +1,36 @@
 public class BannerApp {
 
-    public static void main(String[] args) {
+    static class CharacterPattern {
+        private char character;
+        private String[] pattern;
 
-        String[] banner = {
-                getOPattern(0) + getOPattern(0) + getPPattern(0) + getSPattern(0),
-                getOPattern(1) + getOPattern(1) + getPPattern(1) + getSPattern(1),
-                getOPattern(2) + getOPattern(2) + getPPattern(2) + getSPattern(2),
-                getOPattern(3) + getOPattern(3) + getPPattern(3) + getSPattern(3),
-                getOPattern(4) + getOPattern(4) + getPPattern(4) + getSPattern(4),
-                getOPattern(5) + getOPattern(5) + getPPattern(5) + getSPattern(5),
-                getOPattern(6) + getOPattern(6) + getPPattern(6) + getSPattern(6)
-        };
+        public CharacterPattern(char character, String[] pattern) {
+            this.character = character;
+            this.pattern = pattern;
+        }
 
-        for (String line : banner) {
-            System.out.println(line);
+        public String getPatternLine(int row) {
+            return pattern[row];
+        }
+
+        public char getCharacter() {
+            return character;
         }
     }
 
-    static String getOPattern(int row) {
-        String[] O = {
+    static String buildLine(CharacterPattern[] patterns, int row) {
+        StringBuilder sb = new StringBuilder();
+
+        for (CharacterPattern cp : patterns) {
+            sb.append(cp.getPatternLine(row));
+        }
+
+        return sb.toString();
+    }
+
+    public static void main(String[] args) {
+
+        CharacterPattern O = new CharacterPattern('O', new String[]{
                 "  *****   ",
                 " *     *  ",
                 "*       * ",
@@ -26,12 +38,9 @@ public class BannerApp {
                 "*       * ",
                 " *     *  ",
                 "  *****   "
-        };
-        return O[row];
-    }
+        });
 
-    static String getPPattern(int row) {
-        String[] P = {
+        CharacterPattern P = new CharacterPattern('P', new String[]{
                 "  ******  ",
                 " *     *  ",
                 "*       * ",
@@ -39,12 +48,9 @@ public class BannerApp {
                 "*         ",
                 "*         ",
                 "*         "
-        };
-        return P[row];
-    }
+        });
 
-    static String getSPattern(int row) {
-        String[] S = {
+        CharacterPattern S = new CharacterPattern('S', new String[]{
                 "  ******  ",
                 " *        ",
                 "*         ",
@@ -52,7 +58,12 @@ public class BannerApp {
                 "       *  ",
                 " *     *  ",
                 "  *****   "
-        };
-        return S[row];
+        });
+
+        CharacterPattern[] word = {O, O, P, S};
+
+        for (int i = 0; i < 7; i++) {
+            System.out.println(buildLine(word, i));
+        }
     }
 }
